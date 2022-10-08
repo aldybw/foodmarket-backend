@@ -38,4 +38,13 @@ class TransactionController extends Controller
 
         return ResponseFormatter::success($transaction->paginate($limit), 'Data list transaksi berhasil');
     }
+
+    public function update(Request $request, $id)
+    {
+        $transaction = Transaction::findOrFail($id);
+
+        $transaction->update($request->all());
+
+        return ResponseFormatter::success($transaction, 'Transaksi berhasil diperbarui');
+    }
 }
