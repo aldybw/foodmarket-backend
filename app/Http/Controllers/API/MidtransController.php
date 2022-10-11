@@ -10,7 +10,7 @@ use Midtrans\Notification;
 
 class MidtransController extends Controller
 {
-    public function callback(Request $request)
+    public function callback()
     {
         // Set Konfigurasi Midtrans
         Config::$serverKey = config('services.midtrans.serverKey');
