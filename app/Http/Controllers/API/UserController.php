@@ -127,7 +127,7 @@ class UserController extends Controller
         }
 
         if ($request->file('file')) {
-            $file = $request->file()->store('assets/user', 'public');
+            $file = $request->file->store('assets/user', 'public');
 
             // Simpan foto ke database (urlnya)
             $user = Auth::user();
