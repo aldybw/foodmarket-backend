@@ -71,7 +71,7 @@
                   <label for="address" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                     Address
                   </label>
-                  <input value="{{ old('address') }}" id="passwordConfirmation" name="address" type="text" placeholder="User Address" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+                  <input value="{{ old('address') }}" id="address" name="address" type="text" placeholder="User Address" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
                 </div>
               </div>
               <div class="flex flex-wrap -mx-3 mb-6">
