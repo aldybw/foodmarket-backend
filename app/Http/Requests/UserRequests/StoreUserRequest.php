@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\UserRequests;
 
 use App\Actions\Fortify\PasswordValidationRules;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UserRequest extends FormRequest
+class StoreUserRequest extends FormRequest
 {
     use PasswordValidationRules;
 

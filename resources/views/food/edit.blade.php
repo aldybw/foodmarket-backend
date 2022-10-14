@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            User &raquo; {{ $item->name }} &raquo; Edit
+            Food &raquo; {{ $item->name }} &raquo; Edit
         </h2>
     </x-slot>
 
@@ -24,7 +24,7 @@
                 </div>
               </div>  
             @endif
-            <form action="{{ route('users.update', $item->id) }}" class="w-full" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('food.update', $item->id) }}" class="w-full" method="POST" enctype="multipart/form-data">
               @csrf
               @method('PUT')
               <div class="flex flex-wrap -mx-3 mb-6">
@@ -32,89 +32,63 @@
                   <label for="name" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                     Name
                   </label>
-                  <input value="{{ old('name') ?? $item->name }}" id="name" name="name" type="text" placeholder="User Name" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+                  <input value="{{ old('name') ?? $item->name }}" id="name" name="name" type="text" placeholder="Food Name" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
                 </div>
               </div>
               <div class="flex flex-wrap -mx-3 mb-6">
                 <div class="w-full px-3">
-                  <label for="email" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                    Email
-                  </label>
-                  <input value="{{ old('email') ?? $item->email }}" id="email" name="email" type="email" placeholder="User Email" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
-                </div>
-              </div>
-              <div class="flex flex-wrap -mx-3 mb-6">
-                <div class="w-full px-3">
-                  <label for="profilePhotoPath" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                  <label for="picturePath" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                     Image
                   </label>
-                  <input id="profilePhotoPath" name="profile_photo_path" type="file" placeholder="User Image" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+                  <input id="picturePath" name="picturePath" type="file" placeholder="Food Image" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
                 </div>
               </div>
               <div class="flex flex-wrap -mx-3 mb-6">
                 <div class="w-full px-3">
-                  <label for="password" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                    Password
+                  <label for="description" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                    Description
                   </label>
-                  <input value="{{ old('password') }}" id="password" name="password" type="password" placeholder="User Password" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+                  <input value="{{ old('description') ?? $item->description }}" id="description" name="description" type="text" placeholder="Food Description" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
                 </div>
               </div>
               <div class="flex flex-wrap -mx-3 mb-6">
                 <div class="w-full px-3">
-                  <label for="passwordConfirmation" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                    Password Confirmation
+                  <label for="ingredients" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                    Ingredients
                   </label>
-                  <input value="{{ old('password_confirmation') }}" id="passwordConfirmation" name="password_confirmation" type="password" placeholder="User Password Confirmation" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+                  <input value="{{ old('ingredients') ?? $item->ingredients }}" id="ingredients" name="ingredients" type="text" placeholder="Food Ingredients" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+                  <p class="text-gray-600 text-xs italic">Dipisahkan dengan koma, contoh: Bawang Merah, Paprika, Bawang Bombay, Timun</p>
                 </div>
               </div>
               <div class="flex flex-wrap -mx-3 mb-6">
                 <div class="w-full px-3">
-                  <label for="address" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                    Address
+                  <label for="price" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                    Price
                   </label>
-                  <input value="{{ old('address') ?? $item->address }}" id="passwordConfirmation" name="address" type="text" placeholder="User Address" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+                  <input value="{{ old('price') ?? $item->price }}" id="price" name="price" type="number" placeholder="Food Price" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
                 </div>
               </div>
               <div class="flex flex-wrap -mx-3 mb-6">
                 <div class="w-full px-3">
-                  <label for="roles" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                    Roles
+                  <label for="rate" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                    Rate
                   </label>
-                  <select name="roles" id="roles" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
-                    <option value="{{ $item->roles }}">{{ $item->roles }}</option>
-                    <option value="USER">User</option>
-                    <option value="ADMIN">Admin</option>
-                  </select>
+                  <input value="{{ old('rate') ?? $item->rate }}" id="rate" name="rate" type="number" step="0.01" max="5" placeholder="Food Rate" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
                 </div>
               </div>
               <div class="flex flex-wrap -mx-3 mb-6">
                 <div class="w-full px-3">
-                  <label for="houseNumber" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                    House Number
+                  <label for="types" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                    Types
                   </label>
-                  <input value="{{ old('houseNumber') ?? $item->houseNumber }}" id="houseNumber" name="houseNumber" type="text" placeholder="User House Number" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
-                </div>
-              </div>
-              <div class="flex flex-wrap -mx-3 mb-6">
-                <div class="w-full px-3">
-                  <label for="phoneNumber" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                    Phone Number
-                  </label>
-                  <input value="{{ old('phoneNumber') ?? $item->phoneNumber }}" id="phoneNumber" name="phoneNumber" type="text" placeholder="User Phone Number" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
-                </div>
-              </div>
-              <div class="flex flex-wrap -mx-3 mb-6">
-                <div class="w-full px-3">
-                  <label for="city" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                    City
-                  </label>
-                  <input value="{{ old('city') ?? $item->city }}" id="city" name="city" type="text" placeholder="User City" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+                  <input value="{{ old('types') ?? $item->types }}" id="types" name="types" type="text" placeholder="Food Types" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+                  <p class="text-gray-600 text-xs italic">Dipisahkan dengan koma, contoh: recommended,popular,new_food</p>
                 </div>
               </div>
               <div class="flex flex-wrap -mx-3 mb-6">
                 <div class="w-full px-3 text-right">
                   <button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-                    Update User
+                    Save Food
                   </button>
                 </div>
               </div>

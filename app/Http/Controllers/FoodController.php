@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\FoodRequest;
+use App\Http\Requests\FoodRequests\StoreFoodRequest;
+use App\Http\Requests\FoodRequests\UpdateFoodRequest;
 use App\Models\Food;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class FoodController extends Controller
 {
@@ -38,9 +39,10 @@ class FoodController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(FoodRequest $request)
+    public function store(StoreFoodRequest $request)
     {
         $data = $request->all();
+        $request->validated();
         $data['picturePath'] = $request->file('picturePath')->store('assets/food', 'public');
         Food::create($data);
         return redirect()->route('food.index');
@@ -52,7 +54,7 @@ class FoodController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Food $food)
     {
         //
     }
@@ -63,9 +65,11 @@ class FoodController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Food $food)
     {
-        //
+        return view('food.edit', [
+            'item' => $food
+        ]);
     }
 
     /**
@@ -75,9 +79,24 @@ class FoodController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateFoodRequest $request, Food $food)
     {
-        //
+
+        $data = $request->all();
+        $request->validated();
+
+        if ($request->file('picturePath')) {
+            $fullPicturePath = explode('/', $food->picturePath);
+            $key = array_search('assets', $fullPicturePath);
+            $picturePath = explode('/', $food->picturePath, $key + 1);
+            $picturePath = $picturePath[count($picturePath) - 1];
+
+            Storage::disk('public')->delete($picturePath);
+            $data['picturePath'] = $request->file('picturePath')->store('assets/food', 'public');
+        }
+
+        $food->update($data);
+        return redirect()->route('food.index');
     }
 
     /**
@@ -86,8 +105,10 @@ class FoodController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Food $food)
     {
-        //
+        $food->delete();
+
+        return redirect()->route('food.index');
     }
 }
