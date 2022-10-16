@@ -46,6 +46,7 @@ class UserController extends Controller
     {
         $data = $request->all();
         $request->validated();
+
         $data['password'] = Hash::make($request->password);
         $data['profile_photo_path'] = $request->file('profile_photo_path')->store('assets/user', 'public');
         User::create($data);
@@ -89,7 +90,7 @@ class UserController extends Controller
         $request->validated();
 
         if ($request->file('profile_photo_path')) {
-            Storage::disk('public')->delete($user->profile_photo_path);
+            $this->_deleteOldProfilePhotoPath($user->profile_photo_path);
             $data['profile_photo_path'] = $request->file('profile_photo_path')->store('assets/user', 'public');
         }
 
@@ -111,12 +112,20 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        return $user->profile_photo_path;
         if ($user->profile_photo_path) {
-            Storage::disk('public')->delete($user->profile_photo_path);
+            $this->_deleteOldProfilePhotoPath($user->profile_photo_path);
         }
         $user->delete();
 
         return redirect()->route('users.index');
+    }
+
+    private function _deleteOldProfilePhotoPath($oldProfilePhotoPath)
+    {
+        $fullPicturePath = explode('/', $oldProfilePhotoPath);
+        $key = array_search('assets', $fullPicturePath);
+        $picturePath = explode('/', $oldProfilePhotoPath, $key + 1);
+        $picturePath = $picturePath[count($picturePath) - 1];
+        Storage::disk('public')->delete($picturePath);
     }
 }

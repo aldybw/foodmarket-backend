@@ -86,12 +86,7 @@ class FoodController extends Controller
         $request->validated();
 
         if ($request->file('picturePath')) {
-            $fullPicturePath = explode('/', $food->picturePath);
-            $key = array_search('assets', $fullPicturePath);
-            $picturePath = explode('/', $food->picturePath, $key + 1);
-            $picturePath = $picturePath[count($picturePath) - 1];
-
-            Storage::disk('public')->delete($picturePath);
+            $this->_deleteOldPicturePath($food->picturePath);
             $data['picturePath'] = $request->file('picturePath')->store('assets/food', 'public');
         }
 
@@ -107,8 +102,20 @@ class FoodController extends Controller
      */
     public function destroy(Food $food)
     {
+        if ($food->picturePath) {
+            $this->_deleteOldPicturePath($food->picturePath);
+        }
         $food->delete();
 
         return redirect()->route('food.index');
+    }
+
+    private function _deleteOldPicturePath($oldPicturePath)
+    {
+        $fullPicturePath = explode('/', $oldPicturePath);
+        $key = array_search('assets', $fullPicturePath);
+        $picturePath = explode('/', $oldPicturePath, $key + 1);
+        $picturePath = $picturePath[count($picturePath) - 1];
+        Storage::disk('public')->delete($picturePath);
     }
 }
